@@ -26,7 +26,7 @@ public class DBManager {
     private Connection getConnection(){
         if (this.conn == null){
             try {
-                this.conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/progettoWeb2022", "postgres", "fellowes");
+                this.conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/progettoWeb2022", "postgres", "postgres");
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
