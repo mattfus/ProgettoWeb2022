@@ -24,6 +24,12 @@ export class SupportComponent {
         alert("C'è stato un errore, riprova più tardi.");
       }
     });
+
+    $('#name').val('');
+    $('#email').val('');
+    $('#message').val('');
+    $('#subject').val('');
+
   }
 
 }

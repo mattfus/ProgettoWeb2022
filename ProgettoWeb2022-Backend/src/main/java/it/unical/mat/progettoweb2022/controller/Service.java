@@ -208,7 +208,6 @@ public class Service {
         // Used to debug SMTP issues
         session.setDebug(true);
         try {
-
             MimeMessage message = new MimeMessage(session);
             // Set From: header field of the header.
             message.setFrom(new InternetAddress(from));
@@ -346,5 +345,49 @@ public class Service {
             return false;
         }
         return true;
+    }
+
+    @GetMapping("/sendSupport")
+    public Boolean sendSupport(@RequestParam String name, @RequestParam String email, @RequestParam String message,
+                               @RequestParam String subject){
+
+        String oggetto= subject;
+        String to = "matteofusaro1@gmail.com";
+        String from = email;
+        String host = "smtp.gmail.com";
+        String messaggio= name + " scrive: \n" + message+"\n\n\n"+" Contatto: " + from;
+
+        Properties properties = System.getProperties();
+
+        // Setup mail server
+        properties.put("mail.smtp.host", host);
+        properties.put("mail.smtp.port", "465");
+        properties.put("mail.smtp.ssl.enable", "true");
+        properties.put("mail.smtp.auth", "true");
+
+        Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
+
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("assistenzaprojectjava@gmail.com", "rjgwpjzbmsuqribl");
+            }});
+
+        // Used to debug SMTP issues
+        session.setDebug(false);
+        try {
+            MimeMessage mimeMessage = new MimeMessage(session);
+            // Set From: header field of the header.
+            mimeMessage.setFrom(new InternetAddress(from));
+            // Set To: header field of the header.
+            mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+            // Set Subject: header field
+            mimeMessage.setSubject(oggetto);
+            // Now set the actual message
+            mimeMessage.setText(messaggio);
+
+            Transport.send(mimeMessage);
+            return true;
+        } catch (MessagingException me) {
+            return false;
+        }
     }
 }
