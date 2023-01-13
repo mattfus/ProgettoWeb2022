@@ -25,11 +25,12 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     //Ci serve il service che prenda tutti gli annunci dal database
     //someService.getAds().subscribe(ads => this.ads = ads);
-    this.service.getAds().subscribe(ads => this.ads = ads);
+    this.service.getAds().subscribe(ads => {
+      this.ads = ads.reverse(); //Dall'ultima inserita alla prima
+    });
   }
 
   public search(){
-      console.log(this.searchType);
       let parameter = (<HTMLInputElement>document.getElementById("searchInput")).value;
       if(parameter != "" || parameter != null){
         this.ads = [];
@@ -43,12 +44,10 @@ export class DashboardComponent implements OnInit {
 
   public onChange(event:Event){
     this.searchType = (<HTMLInputElement>event.target).value;
-    console.log("Search type: " + this.searchType);
   }
 
   public onAdsFilterChange(parameter:string){
     this.adsFilter = parameter;
-    console.log("Ads filter: " + this.adsFilter);
   }
 
   public getSearchType():string{

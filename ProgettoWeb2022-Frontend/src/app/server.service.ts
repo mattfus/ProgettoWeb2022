@@ -109,5 +109,9 @@ export class ServerService {
     return offertaValida
   }
 
+  sendSupport(name: string, email : string, message: string, subject: string): Observable<Boolean>{
+    return this.http.get<Boolean>('http://localhost:8080/sendSupport?name=' + name + '&email=' + email + '&message=' + message + '&subject=' + subject);
+  }
+
 
 }

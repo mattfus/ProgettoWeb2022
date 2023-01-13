@@ -1,12 +1,14 @@
 
-<p id="timeReal">{{getTimeRemaining()}} </p>
-
 <div *ngIf="asta">
-  <span>Offerta Corrente: EUR</span> <span id="currentPrice" ><strong> {{asta.currentPrice}}</strong></span>
-
-  <div *ngIf="!isEnd">
-    <button   style="border-radius: 50px;" class="btn btn-primary btn-rounded" data-toggle="modal" data-target="#make-offer-modal">Fai un'offerta</button>
-    <p style="margin-left: 5px;">inserisci {{asta.currentPrice+1}} o piu'</p>
+  <div class="badge badge-primary container mt-3">
+    <span class="h4">Ultima Offerta: <span id="currentPrice"><strong>{{asta.currentPrice}}</strong>&euro;</span></span>
+    <p id="timeReal">{{getTimeRemaining()}} </p>
+  </div>
+  <div *ngIf="!isEnd" class="m-4">
+    <button class="btn btn-primary btn-rounded float-right" data-toggle="modal" data-target="#make-offer-modal">Fai un'offerta</button>
+  </div>
+  <div *ngIf="isEnd" class="m-4">
+    <button class="btn btn-primary btn-rounded float-right" data-toggle="modal" data-target="#make-offer-modal" disabled>Fai un'offerta</button>
   </div>
   <!-- Modal -->
   <div class="modal fade" id="make-offer-modal" tabindex="-1" role="dialog" aria-labelledby="makeOfferModalLabel" aria-hidden="true">

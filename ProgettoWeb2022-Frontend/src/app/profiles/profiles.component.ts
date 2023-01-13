@@ -25,9 +25,7 @@ export class ProfilesComponent implements OnInit {
     const url = new URL(window.location.href);
     this.profile = url.pathname.split("/")[2];
     console.log(this.profile);
-    this.service.getUserByNickname(this.profile).subscribe(user => this.user = user).add(()=>{
-      console.log(this.user.role);
-    })
+    this.service.getUserByNickname(this.profile).subscribe(user => this.user = user)
   }
 
   ngAfterContentChecked(): void {
@@ -35,8 +33,6 @@ export class ProfilesComponent implements OnInit {
     //Add 'implements AfterContentChecked' to the class.
     this.sessionId = this.app.getSessionId();
     this.loggedUser = this.app.getUser();
-    console.log(this.user.role);
-
   }
 
   public getSessionId():string{
@@ -78,15 +74,32 @@ export class ProfilesComponent implements OnInit {
   }
 
   public banUser(nickname: string): void{
-    let res;
-    this.service.banUser(nickname).subscribe(result => res = result);
-  }
-
-  public unBanUser(nickname: string): void{
-    this.service.unbanUser(nickname).subscribe();
+    let val = confirm("Sei sicuro di voler bannare l'utente " + nickname + "?");
+    if(val){
+      let res;
+      this.service.banUser(nickname).subscribe(result => {
+          res = result;
+          if(res){
+            alert("Utente bannato.");
+          }else{
+            alert("C'è stato un errore. L'utente non è stato bannato.")
+          }
+        });
+    }
   }
 
   public makeAdmin(nickname: string): void{
-    this.service.makeAdmin(nickname).subscribe();
+    let val = confirm("Sei sicuro di voler rendere amministratore l'utente " + nickname + "?");7
+    if(val){
+      let res
+      this.service.makeAdmin(nickname).subscribe(result => {
+        res = result;
+        if(res){
+          alert("Utente reso amministratore.");
+        }else{
+          alert("C'è stato un errore. L'utente non è stato reso amministratore.")
+        }
+      });
+    }
   }
 }

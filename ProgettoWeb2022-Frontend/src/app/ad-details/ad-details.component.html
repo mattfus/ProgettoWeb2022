@@ -34,16 +34,17 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCugDwETlCONJNbxQRQ7Qv5Ows
         <div *ngIf="ad.auction == null" class="badge badge-primary container m-4">
           <h5 class="text-white">Prezzo: {{ad.price}} &euro;</h5>
         </div>
-        <div *ngIf="ad.auction != null" class="">
+        <div *ngIf="ad.auction != null && isUserLogged()" class="container">
             <app-auction-details [adId]="ad.id"></app-auction-details>
         </div>
         <div class="card-block px-2 m-3">
 
           <h4 class="card-title">Descrizione</h4>
           <p class="card-text">{{ad.description}}</p>
+          <p class="card-text"><span class="h5">Metri quadri: </span>{{ad.mq}}</p>
           <div *ngIf="(apiLoaded | async) && mapLoaded" class="col-lg-12 col-md-12 col-sm-12">
             <br>
-            <h4 for="mapInput" class="card-title">Posizione</h4>
+            <h4 for="mapInput" class="card-title">Posizione: {{ad.city}}</h4>
             <map class="map">
               <google-map class="col-lg-12 col-md-12 map-responsive" [center]="center" [zoom]="zoom">
                 <map-marker *ngFor="let markerPosition of markerPositions"

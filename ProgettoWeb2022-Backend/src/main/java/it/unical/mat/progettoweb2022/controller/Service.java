@@ -5,20 +5,14 @@ import it.unical.mat.progettoweb2022.persistenza.DAO.*;
 import it.unical.mat.progettoweb2022.persistenza.DBManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-
-import org.apache.http.HttpEntity;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Properties;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @RestController
 @CrossOrigin("http://localhost:4200/")
@@ -58,25 +52,31 @@ public class Service {
                     adList.add(ad);
                 }
             }
-        }
-
-        for(Ad ad : adList){
-            System.out.println(ad.getTitle());
+        }else if(searchType.equals("Tipo")){
+            PropertyDAO pDao = DBManager.getInstance().getPropertyDao();
+            for(Ad ad : tempList){
+                Property p = pDao.findByPrimaryKey(ad.getProperty());
+                if(p.getType().equals(parameter)) {
+                    adList.add(ad);
+                }
+            }
         }
         return adList;
     }
 
     @GetMapping("/user")
-    public User getNickname(HttpServletRequest req, @RequestParam String parameter, @RequestParam Boolean bySession){
-        System.out.println("DAMMI USER __________________");
+    public User getNickname(HttpServletRequest req, @RequestParam String parameter, @RequestParam Boolean bySession) {
         User user = null;
-        if(bySession) {
-            HttpSession session = (HttpSession) req.getServletContext().getAttribute(parameter);
-            user = (User) session.getAttribute("user");
-        }else{
+        try {
+            if (bySession) {
+                HttpSession session = (HttpSession) req.getServletContext().getAttribute(parameter);
+                user = (User) session.getAttribute("user");
+            }else{
             user = DBManager.getInstance().getUserDao().findByPrimaryKey(parameter);
+            }
+        }catch(Exception e){
+            return user;
         }
-        System.out.println(user.getBanned());
         return user;
     }
 
@@ -108,13 +108,13 @@ public class Service {
             ad.setProperty(property.getId());
             ad.setPrice(Double.parseDouble(price));
             ad.setMq(Double.parseDouble(mq));
+            ad.setAuction(isAuction);
             ad.setCity(city);
             if (status.equals("Affitto"))
                 ad.setStatus("affittasi");
             else {
                 ad.setStatus("vendesi");
             }
-
 
             DBManager.getInstance().getAdDao().saveOrUpdate(ad);
 
@@ -127,12 +127,25 @@ public class Service {
             property.setAd(ad.getId());
             DBManager.getInstance().getPropertyDao().saveOrUpdate(property);
 
-
+            if(isAuction.equals("true")){
+                AuctionDAO aDao = DBManager.getInstance().getAuctionDao();
+                Auction auction = new Auction();
+                auction.setAd_id(ad.getId());
+                auction.setCurrentPrice(Integer.parseInt(price));
+                auction.setNumOfferte(0);
+                Integer days = 7;
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(calendar.getTime());
+                calendar.add(Calendar.DAY_OF_YEAR, days);
+                Date date = calendar.getTime();
+                Timestamp ts = new Timestamp(date.getTime());
+                System.out.println(ts);
+                auction.setEndTime(ts.toString());
+                aDao.saveOrUpdate(auction);
+            }
         }catch(Exception e){
-            return false;
+            e.printStackTrace();
         }
-
-
         return true;
     }
 
@@ -194,7 +207,6 @@ public class Service {
 
         // Used to debug SMTP issues
         session.setDebug(true);
-
         try {
 
             MimeMessage message = new MimeMessage(session);
@@ -221,7 +233,6 @@ public class Service {
 
     @GetMapping("/getReviews")
     public List<Review> getReviews(@RequestParam Integer adId){
-
         ReviewDAO dao = DBManager.getInstance().getReviewDao();
         return dao.findByAdId(adId);
     }
@@ -234,7 +245,6 @@ public class Service {
 
     @GetMapping("/removeReview")
     public boolean removeReview(@RequestParam Integer reviewId){
-
         ReviewDAO dao = DBManager.getInstance().getReviewDao();
         return dao.delete(reviewId);
     }
@@ -243,7 +253,7 @@ public class Service {
     public boolean banUser(@RequestParam String nickname){
         UserDAO dao = DBManager.getInstance().getUserDao();
         User user = dao.findByPrimaryKey(nickname);
-        user.setBanned(!user.getBanned());
+        user.setBanned(true);
         try {
             dao.saveOrUpdate(user);
         }catch (Exception e) {
@@ -293,7 +303,11 @@ public class Service {
         a.setAd_id(1);
         a.setId(id);
         a.setCurrentPrice(Integer.valueOf(offerta));
-        DBManager.getInstance().getAuctionDao().saveOrUpdate(a);
+        try {
+            DBManager.getInstance().getAuctionDao().saveOrUpdate(a);
+        }catch(Exception e){
+            return false;
+        }
         return true;
     }
 
@@ -329,7 +343,7 @@ public class Service {
             dao.saveOrUpdate(user);
         }
         catch (Exception e ) {
-            e.printStackTrace();
+            return false;
         }
         return true;
     }

@@ -3,26 +3,36 @@
     <h1 class="display-4">Affitti/Vendite</h1>
     <p class="lead">Inserisci il nome di un annuncio o la città a cui sei interessato e ti mostreremo i risultati!</p>
   </div>
-  <form class="container row">
-    <div class="col-lg-2 col-md-3 col-sm-4">
-      <select class="form-control btn-lg" id="searchType" (change)="onChange($event)">
-        <option>Città</option>
-        <option>Titolo</option>
-        <option>Contenuto</option>
-      </select>
+  <div class="m-4" id="searchBar">
+    <form class="container row">
+      <div class="col-lg-2 col-md-3 col-sm-4">
+        <select class="form-control btn-lg" id="searchType" (change)="onChange($event)">
+          <option selected>Città</option>
+          <option>Titolo</option>
+          <option>Contenuto</option>
+          <option>Tipo</option>
+        </select>
+      </div>
+      <div *ngIf='getSearchType() === "" || getSearchType() == "Città"' class="form-group col-lg-9 col-md-9 col-sm-9">
+        <input type="text" class="form-control btn-lg" id="searchInput" placeholder="Città">
+      </div>
+      <div *ngIf='getSearchType() === "Titolo"' class="form-group col-lg-9 col-md-9 col-sm-9">
+        <input type="text" class="form-control btn-lg" id="searchInput" placeholder="Titolo">
+      </div>
+      <div *ngIf='getSearchType() === "Contenuto"' class="form-group col-lg-9 col-md-9 col-sm-9">
+        <input type="text" class="form-control btn-lg" id="searchInput" placeholder="Contenuto">
+      </div>
+      <div *ngIf='getSearchType() === "Tipo"' class="form-group col-lg-9 col-md-9 col-sm-9">
+        <select class="form-control btn-lg" id="searchInput">
+          <option selected>Villa</option>
+          <option>Appartamento</option>
+          <option>Terreno</option>
+        </select>
+      </div>
+    </form>
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary" (click)="search()"><span class="h5">Cerca</span></button>
     </div>
-    <div *ngIf='getSearchType() === "" || getSearchType() == "Città"' class="form-group col-lg-9 col-md-9 col-sm-9">
-      <input type="text" class="form-control btn-lg" id="searchInput" placeholder="Città">
-    </div>
-    <div *ngIf='getSearchType() === "Titolo"' class="form-group col-lg-9 col-lg-9 col-md-9 col-sm-9">
-      <input type="text" class="form-control btn-lg" id="searchInput" placeholder="Titolo">
-    </div>
-    <div *ngIf='getSearchType() === "Contenuto"' class="form-group col-lg-9 col-lg-9 col-md-9 col-sm-9">
-      <input type="text" class="form-control btn-lg" id="searchInput" placeholder="Contenuto">
-    </div>
-  </form>
-  <div class="text-center">
-    <button type="submit" class="btn btn-primary" (click)="search()"><span class="h5">Cerca</span></button>
   </div>
   <div class="mt-4 pt-4">
     <div class="btn-group btn-group-toggle container" data-toggle="buttons">

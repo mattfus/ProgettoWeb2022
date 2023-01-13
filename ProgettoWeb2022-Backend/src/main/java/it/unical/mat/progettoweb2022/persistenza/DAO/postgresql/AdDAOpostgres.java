@@ -82,7 +82,7 @@ public class AdDAOpostgres implements AdDAO {
                     " price =?," +
                     " mq =?," +
                     " status =?," +
-                    " isauction =?" +
+                    " isauction =?," +
                     " city =? WHERE id =?";
             try {
                 PreparedStatement st = conn.prepareStatement(query);

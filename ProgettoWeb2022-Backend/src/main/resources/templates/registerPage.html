@@ -19,8 +19,8 @@
 </head>
 
 <body>
-    <div class="navigation-wrap bg-light start-header start-style container" style="position: static;">
-        <div class="">
+    <div class="navigation-wrap bg-light start-header start-style " style="position: static;">
+        <div class="container">
             <div class="row">
                 <div class="col-12">
                     <nav class="navbar navbar-expand-md navbar-light">
@@ -66,14 +66,14 @@
                                 <input type="text" name="nickname" class="form-control" id="nicknameInput" placeholder="Nickname">
                             </div>
                             <div class="form-floating mb-3 input-group">
-                                <input type="text" name="name" class="form-control input-sm" id="nameInput" placeholder="Name">
-                                <input type="text" name="lastname" class="form-control input-sm" id="lastnameInput" placeholder="Lastname">
+                                <input type="text" name="name" class="form-control input-sm" id="nameInput" placeholder="Nome">
+                                <input type="text" name="lastname" class="form-control input-sm" id="lastnameInput" placeholder="Cognome">
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="email" name="email" class="form-control" id="emailInput" placeholder="name@example.com">
+                                <input type="email" name="email" class="form-control" id="emailInput" placeholder="email@example.com">
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="number" name="age" class="form-control" id="ageInput" placeholder="Age">
+                                <input type="number" name="age" class="form-control" id="ageInput" placeholder="Età">
                             </div>
                             <hr>
                             <div class="form-floating mb-3">
@@ -81,7 +81,7 @@
                             </div>
 
                             <div class="form-floating mb-3">
-                                <input type="password" class="form-control" id="cPassInput" placeholder="Confirm Password">
+                                <input type="password" class="form-control" id="cPassInput" placeholder="Conferma Password">
                             </div>
                             <div>
                                 <p class="h5"></p>
@@ -89,7 +89,7 @@
                             <div class="d-grid mb-2">
                                 <input id="submitButton" type="button" class="btn btn-lg btn-primary btn-login fw-bold text-uppercase" value="Sing-up"></button>
                             </div>
-                            <a class="d-block text-center mt-2 small" href="http://localhost:8080/login">Already have an account? Sign in!</a>
+                            <a class="d-block text-center mt-2 small" href="http://localhost:8080/login">Hai già un account? Accedi!</a>
                             <hr class="my-4">
                         </form>
                     </div>
@@ -122,31 +122,31 @@
                                                 password: passwordInput.value}, // data to be submit
                                             function (response, status, jqXHR) {// success callback
                                                 if(response === "ERROR") {
-                                                    $('p').text("Something went wrong");
+                                                    $('p').text("Qualcosa è andato storto.");
                                                 }else if(response === "USER_EXISTS"){
-                                                    $('p').text("User already exists.");
+                                                    $('p').text("L'utente esiste già.");
                                                 }else{
                                                     console.log(response);
                                                     window.location.replace("http://localhost:4200/dashboard?sessionId=" + response);
                                                 }
                                             });
                                     }else{
-                                        $('p').text("Passwords don't match.");
+                                        $('p').text("Le password non corrispondono.");
                                     }
                                 }else{
-                                    $('p').text("Password must be at least 8 characters.");
+                                    $('p').text("La password deve essere di almeno 8 caratteri.");
                                 }
                             }else{
-                                $('p').text("Please enter your password");
+                                $('p').text("Inserisci una password.");
                             }
                         }else{
-                            $('p').text("Your need to be at least 18 years old.");
+                            $('p').text("Devi essere maggiorene per poter registrarti.");
                         }
                     }else{
-                        $('p').text("Please enter a valid email address");
+                        $('p').text("Inserisci un indirizzo email valido.");
                     }
                 }else{
-                    $('p').text("Please enter a valid nickname, name and lastname.");
+                    $('p').text("Inserisci nickname, nome e cognome validi.");
                 }
             });
         });

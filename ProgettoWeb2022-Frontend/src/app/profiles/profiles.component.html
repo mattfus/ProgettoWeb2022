@@ -97,8 +97,6 @@
           </div>
           <div *ngIf="loggedUser.role === 'admin'" class="text-center">
             <button class="btn alert-danger" type="button" (click)="banUser(user.nickname)">Banna Utente</button>
-            <button *ngIf="user.isBanned" class="btn alert-danger" type="button" (click)="unBanUser(user.nickname)">Sbanna Utente</button>
-            <br>
             <button *ngIf="user.role == 'user'" class="btn alert-primary m-2" type="button" (click)="makeAdmin(user.nickname)">Rendi Admin</button>
           </div>
       </div>

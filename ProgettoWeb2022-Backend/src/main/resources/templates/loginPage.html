@@ -20,8 +20,8 @@
 </head>
 
 <body>
-  <div class="navigation-wrap bg-light start-header start-style container" style="position: static;">
-    <div class="">
+  <div class="navigation-wrap bg-light start-header start-style " style="position: static;">
+    <div class="container">
       <div class="row">
         <div class="col-12">
           <nav class="navbar navbar-expand-md navbar-light">
@@ -100,13 +100,13 @@
                     password: pass.value}, // data to be submit
                     function (response, status, jqXHR) {// success callback
                       if(response === "ERROR") {
-                        $('p').text("Something went wrong");
+                        $('p').text("Qualcosa è andato storto.");
                       }else if(response === "INCORRECT_PASSWORD"){
-                        $('p').text("Password is incorrect, try again.");
+                        $('p').text("Password errata, riprova.");
                       }else if(response === "USER_NOT_EXISTS"){
-                        $('p').text("User does not exists, please register.");
+                        $('p').text("L'utente non esiste, prova a registrarti.");
                       }else if(response === "USER_BANNED"){
-                        $('p').text("This user has denied access to the website. Contact Us");
+                        $('p').text("A questo utente è stato vietato di accedere, contattaci");
                       }else{
                         console.log(response);
                         window.location.replace("http://localhost:4200/dashboard?sessionId=" + response);

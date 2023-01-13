@@ -21,11 +21,7 @@ public class Auth {
     @PostMapping("/doLogin")
     @ResponseBody
     public Object doLogin(HttpServletRequest req,HttpServletResponse resp,@RequestParam String nickname, @RequestParam String password){
-        System.out.println(nickname);
-        System.out.println(password);
-
         User user = DBManager.getInstance().getUserDao().findByPrimaryKey(nickname);
-        System.out.println(user.toString());
         if(user.getId() != null){
             if(BCrypt.checkpw(password, user.getPassword())){
                 if(!user.getBanned()) {
@@ -66,11 +62,7 @@ public class Auth {
             user.setPassword(password);
             user.setRole("user");
             user.setBanned(false);
-            System.out.println("UTENTE CREATO");
-            System.out.println(user);
             dao.saveOrUpdate(user);
-            System.out.println("INSERITO");
-            System.out.println(user);
             HttpSession session = req.getSession();
             session.setAttribute("user", user);
             session.setAttribute("sessionId", session.getId());
@@ -85,7 +77,6 @@ public class Auth {
     @ResponseBody
     @CrossOrigin("http://localhost:4200/")
     public boolean checkLoggedIn(HttpServletRequest req, HttpServletResponse resp, @RequestParam String sessionId){
-        System.out.println("APPENA LOGGATO" + sessionId);
         ServletContext context = req.getServletContext();
         Object user = context.getAttribute(sessionId);
         if(user != null){
@@ -102,7 +93,7 @@ public class Auth {
         try {
             resp.sendRedirect("http://localhost:4200");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            resp.setStatus(400);
         }
     }
 

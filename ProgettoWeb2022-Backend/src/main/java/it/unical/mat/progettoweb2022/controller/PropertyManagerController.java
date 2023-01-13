@@ -5,7 +5,6 @@ import it.unical.mat.progettoweb2022.model.User;
 import it.unical.mat.progettoweb2022.persistenza.DBManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +16,6 @@ public class PropertyManagerController {
 
     @PostMapping("/newProperty")
     public void addProperty(HttpServletRequest req , @RequestBody ArrayList<Property> properties) {
-        System.out.println("SALVO");
         //recupero User loggato dalla session
         HttpSession session = req.getSession();
         User u=(User) session.getAttribute("user");
@@ -41,7 +39,6 @@ public class PropertyManagerController {
             if (pId != null) {
                 Property property = new Property();
                 property.setId(pId);
-                System.out.println("ID DA ELIMINARE : " +pId);
                 DBManager.getInstance().getPropertyDao().delete(property);
             }
         }

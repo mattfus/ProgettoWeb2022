@@ -1,11 +1,8 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { Ad} from '../classes';
-import { User } from '../classes';
-import { Property } from '../classes';
 import { ServerService } from '../server.service';
-import { ActivatedRoute } from '@angular/router';
 import { AppComponent } from '../app.component';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-ad-cards',
@@ -24,9 +21,6 @@ export class AdCardsComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("ngOnChanges: " + changes);
-    console.log(this.ads.length);
-
     if(this.order == 1){
       this.ads.sort((a,b) => a.price - b.price);
     }else if(this.order == 2){

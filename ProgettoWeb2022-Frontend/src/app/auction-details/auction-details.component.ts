@@ -32,17 +32,11 @@ export class AuctionDetailsComponent {
 
     const offerAmountInput = document.getElementById("offer-amount") as HTMLInputElement;
     this.offerAmount = offerAmountInput.value;
-
     //unico modo non riesco a prende valore da asta
     const currentPrice= document.getElementById("currentPrice") as HTMLParagraphElement
-
-
-
     const modal = document.getElementById("make-offer-modal") as HTMLInputElement;
     const button = document.getElementById("chiudi") as HTMLButtonElement;
     const infoPrezzo= document.getElementById("infoPrezzo") as HTMLParagraphElement
-
-
 
     if(this.offerAmount){
       if(parseInt(this.offerAmount)> parseInt(currentPrice.textContent!))
@@ -56,8 +50,6 @@ export class AuctionDetailsComponent {
     else
       button.disabled=true
 
-
-
   }
 
 
@@ -68,15 +60,11 @@ export class AuctionDetailsComponent {
 
     setTimeout(() => {
     if(this.isAccept){
-      alert("Offerta accettata! Sei un Grande")
-      if(this.asta)
-        this.asta.currentPrice=this.asta.currentPrice+1
+      alert("Offerta accettata!")
+      if(this.asta && this.offerAmount != undefined)
+        this.asta.currentPrice = parseInt(this.offerAmount);
     }}, 100);
   }
-
-
-
-
 
   updateTimeRemaining() {
     let timeRemaining = this.getTimeRemaining();
