@@ -56,7 +56,8 @@ export class AuctionDetailsComponent {
   async inviaOfferta(){
     const offerAmountInput = document.getElementById("offer-amount") as HTMLInputElement;
     this.offerAmount = offerAmountInput.value;
-    await this.service.sendAuctionOffer(this.asta?.id,this.offerAmount).subscribe(a=>this.isAccept=a)
+    console.log(this.asta?.id);
+    this.service.sendAuctionOffer(this.asta?.id,this.offerAmount).subscribe(a=>this.isAccept=a)
 
     setTimeout(() => {
     if(this.isAccept){

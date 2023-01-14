@@ -298,14 +298,13 @@ public class Service {
 
     @GetMapping("/putOffer")
     public Boolean prendiOfferta(Integer id, String offerta) {
-        Auction a=new Auction();
-        a.setAd_id(1);
-        a.setId(id);
-        a.setCurrentPrice(Integer.valueOf(offerta));
-        try {
-            DBManager.getInstance().getAuctionDao().saveOrUpdate(a);
-        }catch(Exception e){
-            return false;
+        AuctionDAO aDao = DBManager.getInstance().getAuctionDao();
+        try{
+            Auction auction = aDao.findByPrimaryKey(id);
+            auction.setCurrentPrice(Integer.parseInt(offerta));
+            aDao.saveOrUpdate(auction);
+        }catch (Exception e){
+            e.printStackTrace();
         }
         return true;
     }

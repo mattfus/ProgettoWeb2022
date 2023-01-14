@@ -50,7 +50,25 @@ public class AuctionDAOpostgres implements AuctionDAO {
 
     @Override
     public Auction findByPrimaryKey(Integer id) {
-        return null;
+        Auction auction = null;
+        String query = "SELECT * FROM auctions WHERE id =?";
+        try {
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                auction = new Auction();
+                auction.setId(rs.getInt("id"));
+                auction.setEndTime(rs.getString("end_time"));
+                auction.setCurrentPrice(rs.getInt("current_price"));
+                auction.setWinner(rs.getString("winner"));
+                auction.setAd_id(rs.getInt("ad_id"));
+                auction.setNumOfferte(rs.getInt("num_offerte"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return auction;
     }
 
     @Override
