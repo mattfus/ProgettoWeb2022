@@ -21,8 +21,6 @@ public class AuctionDAOpostgres implements AuctionDAO {
 
     @Override
     public Auction findByAd(Integer ad) {
-
-        System.out.println("eccomi "+ad);
         String query = "select * from auctions  where  ad_id= ?";
         Auction au = new Auction();
 
@@ -76,20 +74,15 @@ public class AuctionDAOpostgres implements AuctionDAO {
         if (ac.getId() == null){
             var endTime=ac.getEndTime();
             Timestamp t=Timestamp.valueOf(endTime);
-            System.out.println("valore : "+t);
             String insertStr = "INSERT INTO auctions VALUES (default, ?, ?, ?, ?, ?)";
             PreparedStatement st;
             try {
                 st = conn.prepareStatement(insertStr, Statement.RETURN_GENERATED_KEYS);
-
-
                 st.setTimestamp(1, t);
                 st.setInt(2, ac.getCurrentPrice());
                 st.setString(3, ac.getWinner());
                 st.setInt(4, ac.getAd_id());
                 st.setInt(5, ac.getNumOfferte());
-
-
                 st.executeUpdate();
                 ResultSet rs = st.getGeneratedKeys();
                 if (rs.next()) {
@@ -100,7 +93,6 @@ public class AuctionDAOpostgres implements AuctionDAO {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-
 
         }
         else {
@@ -115,7 +107,6 @@ public class AuctionDAOpostgres implements AuctionDAO {
                 st.setInt(2, ac.getAd_id());
 
                 st.executeUpdate();
-                System.out.println("Aggiornamento: OK");
 
             } catch (SQLException e) {
                 // TODO Auto-generated catch block
@@ -123,7 +114,6 @@ public class AuctionDAOpostgres implements AuctionDAO {
             }
 
         }
-
 
     }
 
